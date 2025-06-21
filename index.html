@@ -15,14 +15,6 @@
       color: #f0f0f0;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .fade {
-      transition: opacity 0.4s ease;
-    }
-
     header {
       background-color: #400000;
       padding: 20px;
@@ -39,11 +31,9 @@
       gap: 10px;
     }
 
-    header img.logo,
-    header svg.logo {
+    header img.logo {
       width: 32px;
       height: 32px;
-      display: block;
     }
 
     .buttons a {
@@ -119,7 +109,6 @@
       box-shadow: 0 0 8px #ff1a1a;
     }
 
-    /* --- Key Page Styles --- */
     .page {
       display: none;
       padding: 50px 20px;
@@ -199,15 +188,10 @@
   </style>
 </head>
 <body>
-
-<!-- HOME PAGE -->
 <div id="homePage" class="page active fade">
   <header>
     <h1>
-      <!-- Inline SVG red diamond logo -->
-      <svg class="logo" width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <rect x="16" y="16" width="32" height="32" fill="#ff1a1a" transform="rotate(45 32 32)" />
-      </svg>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Red_diamond.svg/2048px-Red_diamond.svg.png" alt="Red Diamond Logo" class="logo" />
       Sapphire
     </h1>
     <div class="buttons">
@@ -226,14 +210,11 @@
     <div class="features">
       <div class="feature-box">
         <h3>Free & Paid Options</h3>
-        <p>Free users use the key system to verify.<br/>
-           Paid users skip the key system completely.<br/>
-           Both get the same premium support.</p>
+        <p>Free users use the key system to verify.<br/>Paid users skip the key system completely.<br/>Both get the same premium support.</p>
       </div>
       <div class="feature-box">
         <h3>Lightning-Fast & Undetected</h3>
-        <p>100% undetected and smooth execution.<br/>
-           Stable, fast script injection every time.</p>
+        <p>100% undetected and smooth execution.<br/>Stable, fast script injection every time.</p>
       </div>
       <div class="feature-box">
         <h3>Runs 99% of Scripts (UNC / sUNC Supported)</h3>
@@ -257,7 +238,6 @@
   </footer>
 </div>
 
-<!-- KEY PAGE -->
 <div id="keyPage" class="page fade">
   <h2>🧩 Sapphire Key System</h2>
 
@@ -287,7 +267,7 @@
   <div id="step5" class="step">
     <h3>✅ Key Unlocked!</h3>
     <div class="key-box">Your Key: <strong>Sapphire-Test-Key123</strong></div>
-    <a href="#" class="button back-button" onclick="goBack()">⬅ Back to Home</a>
+    <a href="#" class="button back-button" onclick="goBack()">⬅️ Back to Home</a>
   </div>
 </div>
 
@@ -317,15 +297,9 @@
   const slider = document.getElementById('slider');
   let dragging = false;
 
-  handle.addEventListener('mousedown', () => {
-    if (handle.classList.contains('done')) return;
-    dragging = true;
-  });
-
-  document.addEventListener('mousemove', function (e) {
-    if (!dragging) return;
+  function setHandlePosition(x) {
     const rect = slider.getBoundingClientRect();
-    let offsetX = e.clientX - rect.left;
+    let offsetX = x - rect.left;
     offsetX = Math.max(0, Math.min(offsetX, rect.width - handle.offsetWidth));
     handle.style.left = offsetX + 'px';
 
@@ -334,9 +308,34 @@
       handle.classList.add('done');
       setTimeout(() => nextStep(2), 500);
     }
+  }
+
+  handle.addEventListener('mousedown', () => {
+    if (handle.classList.contains('done')) return;
+    dragging = true;
+  });
+
+  document.addEventListener('mousemove', function (e) {
+    if (!dragging) return;
+    setHandlePosition(e.clientX);
   });
 
   document.addEventListener('mouseup', () => {
+    dragging = false;
+  });
+
+  handle.addEventListener('touchstart', () => {
+    if (handle.classList.contains('done')) return;
+    dragging = true;
+  });
+
+  document.addEventListener('touchmove', function (e) {
+    if (!dragging) return;
+    const touch = e.touches[0];
+    setHandlePosition(touch.clientX);
+  });
+
+  document.addEventListener('touchend', () => {
     dragging = false;
   });
 </script>
